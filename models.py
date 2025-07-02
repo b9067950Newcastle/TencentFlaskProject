@@ -97,7 +97,7 @@ class IDC(db.Model):
         self.IDC_name = IDC_name
         self.city_id = city_id
 
-    # 增 (需验证城市存在)
+    # 增
     @classmethod
     def create(cls, idc_name, city_id):
         if not idc_name:
@@ -131,8 +131,9 @@ class IDC(db.Model):
         db.session.delete(idc)
         db.session.commit()
 
+    # 改
     @classmethod
-    def update(cls, idc_id, new_name=None, new_city_id=None):
+    def update_by_id(cls, idc_id, new_name=None, new_city_id=None):
         idc = cls.query.get(idc_id)
         if not idc:
             raise ValueError(f"IDC with ID {idc_id} not found")
@@ -181,6 +182,7 @@ class Host(db.Model):
         self.encryption_key = Fernet.generate_key()
         self.last_update_password = datetime.now()
 
+    # 增
     @classmethod
     def create(cls, host_name, ip_address, idc_id, root_password):
         if not IDC.get_by_id(idc_id):
@@ -195,6 +197,7 @@ class Host(db.Model):
             db.session.rollback()
             raise ValueError("IP address must be unique")
 
+    # 删
     @classmethod
     def delete_by_id(cls, host_id):
         host = cls.query.get(host_id)
@@ -213,8 +216,9 @@ class Host(db.Model):
         db.session.delete(host)
         db.session.commit()
 
+    #改
     @classmethod
-    def update(cls, host_id, host_name=None, ip_address=None, idc_id=None, root_password=None):
+    def update_by_id(cls, host_id, host_name=None, ip_address=None, idc_id=None, root_password=None):
         host = cls.query.get(host_id)
         if not host:
             raise ValueError(f"Host with ID {host_id} not found")
@@ -235,13 +239,15 @@ class Host(db.Model):
         if root_password:
             # 更新密码时重新生成加密密钥并更新时间戳
             host.root_password = bcrypt.hashpw(root_password.encode("utf-8"), bcrypt.gensalt())
-            host.encryption_key = Fernet.generate_key()
             host.last_update_password = datetime.now()
 
         db.session.commit()
         return host
 
-    # 查
+    def update_password(self, root_password):
+        self.root_password = bcrypt.hashpw(root_password.encode("utf-8"), bcrypt.gensalt())
+        self.last_update_password = datetime.now()
+
     @classmethod
     def get_all(cls):
         return cls.query.all()
@@ -257,6 +263,13 @@ class Host(db.Model):
     @classmethod
     def get_by_ip(cls, host_ip):
         return cls.query.filter_by(ip_address=host_ip).first()
+
+class HostStat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, nullable=False)
+    city_id = db.Column(db.Integer, db.ForeignKey('tblCities.id'), nullable=False)
+    IDC_id = db.Column(db.Integer, db.ForeignKey('tblIDC.id'), nullable=False)
+    host_count = db.Column(db.Integer, nullable=False)
 
 
 def init_db():

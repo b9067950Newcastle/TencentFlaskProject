@@ -1,14 +1,9 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from config import Config
 
 app = Flask(__name__)
-
-app.config['SECRET_KEY'] = 'LongAndRandomSecretKey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///host.db'
-app.config['SQLALCHEMY_ECHO'] = "True"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = "False"
-app.config["RECAPTCHA_PUBLIC_KEY"] = "6Lf41H4iAAAAALCDw0esznqOX1-uxAKABhCYQ51_"
-app.config["RECAPTCHA_PRIVATE_KEY"] = "6Lf41H4iAAAAALw_t1vVYYcr9fUvBkqR7yjZqCwN"
+app.config.from_object(Config)
 
 db = SQLAlchemy(app)
 
