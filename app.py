@@ -12,6 +12,10 @@ app.config["RECAPTCHA_PRIVATE_KEY"] = "6Lf41H4iAAAAALw_t1vVYYcr9fUvBkqR7yjZqCwN"
 
 db = SQLAlchemy(app)
 
+from ping_service.views import ping_service_blueprint
+
+app.register_blueprint(ping_service_blueprint)
+
 @app.route('/')
 def hello_world():  # put application's code here
     return 'Hello World!'

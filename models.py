@@ -254,6 +254,10 @@ class Host(db.Model):
     def get_by_name(cls, host_name):
         return cls.query.filter_by(host_name=host_name).first()
 
+    @classmethod
+    def get_by_ip(cls, host_ip):
+        return cls.query.filter_by(ip_address=host_ip).first()
+
 
 def init_db():
     with app.app_context():
