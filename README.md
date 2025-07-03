@@ -70,18 +70,7 @@
 使用celery创建了两个定时任务，在flask应用与redis服务器均启动后，使用以下命令
 
 celery -A run_celery.celery worker --loglevel=info
+celery -A run_celery.celery beat --loglevel=info
 
 ## 计时中间件
 设计了一个中间件
-
-临时启动celery
-redis-server
-
-后台自启动
-brew services start redis  # 开机自启
-
-手动启动
-redis-server /usr/local/etc/redis.conf --daemonize yes
-
-验证是否运行
-redis-cli ping
