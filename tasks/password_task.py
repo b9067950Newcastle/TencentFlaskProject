@@ -1,12 +1,11 @@
-# tasks/password_tasks.py
 import string
-from celery_app import celery
 from app import db
 from models import Host
 import random
+from celery_app import celery
 
 
-def generate_secure_password(length=16):
+def generate_secure_password():
     # 定义字符集
     lowercase = string.ascii_lowercase  # 小写字母
     uppercase = string.ascii_uppercase  # 大写字母
@@ -43,7 +42,6 @@ def update_all_hosts_passwords():
         for host in hosts:
             new_password = generate_secure_password()
             host.update_password(new_password)
-            # TODO: 实际项目中应将新密码存储到安全系统
 
         db.session.commit()
         return {"status": "success", "updated_hosts": len(hosts)}

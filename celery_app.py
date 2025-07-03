@@ -1,7 +1,5 @@
-# celery_app.py
 from celery import Celery
-from app import app, db  # 从主应用导入
-
+from app import app
 
 def make_celery(app):
     # 创建 Celery 实例
@@ -23,10 +21,4 @@ def make_celery(app):
     celery.Task = ContextTask
     return celery
 
-
-# 初始化 Celery
 celery = make_celery(app)
-
-# 导入任务（必须放在最后）
-from tasks.password_task import update_all_hosts_passwords
-from tasks.daily_host_collect import daily_host_collect

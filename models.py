@@ -295,3 +295,6 @@ def init_db():
         )
         db.session.add(host)
         db.session.commit()
+
+if __name__ == '__main__':
+    init_db()

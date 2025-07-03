@@ -16,8 +16,8 @@ class Config:
             'task': 'tasks.password_tasks.update_all_hosts_passwords',
             'schedule': 28800.0,
         },
-        'daily-host-count': {
-            'task': '',
+        'daily-host-collect': {
+            'task': 'tasks.daily_host_collect.daily_host_collect',
             'schedule': crontab(minute=0, hour=0),  # 每天0点
         },
     }

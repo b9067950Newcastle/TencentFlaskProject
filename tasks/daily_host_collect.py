@@ -1,6 +1,6 @@
-from celery_app import celery
 from app import db
 from models import IDC, Host, HostStat
+from celery_app import celery
 
 @celery.task
 def daily_host_collect():
