@@ -1,9 +1,11 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
+from time_middleware.time_middleware import TimingMiddleware
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.wsgi_app = TimingMiddleware(app.wsgi_app)
 
 db = SQLAlchemy(app)
 
