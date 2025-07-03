@@ -265,12 +265,18 @@ class Host(db.Model):
         return cls.query.filter_by(ip_address=host_ip).first()
 
 class HostStat(db.Model):
+    __tablename__ = 'tblHostStat'
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False)
     city_id = db.Column(db.Integer, db.ForeignKey('tblCities.id'), nullable=False)
     IDC_id = db.Column(db.Integer, db.ForeignKey('tblIDC.id'), nullable=False)
     host_count = db.Column(db.Integer, nullable=False)
 
+    def __init__(self, date, city_id, IDC_id, host_count):
+        self.date = date
+        self.city_id = city_id
+        self.IDC_id = IDC_id
+        self.host_count = host_count
 
 def init_db():
     with app.app_context():
