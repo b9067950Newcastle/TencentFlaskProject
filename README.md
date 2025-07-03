@@ -74,3 +74,14 @@ celery -A run_celery.celery worker --loglevel=info
 ## 计时中间件
 设计了一个中间件
 
+临时启动celery
+redis-server
+
+后台自启动
+brew services start redis  # 开机自启
+
+手动启动
+redis-server /usr/local/etc/redis.conf --daemonize yes
+
+验证是否运行
+redis-cli ping

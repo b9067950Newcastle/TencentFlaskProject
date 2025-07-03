@@ -35,7 +35,7 @@ def generate_secure_password():
     return ''.join(password)
 
 
-@celery.task
+@celery.task(name='tasks.password_tasks.update_all_hosts_passwords')
 def update_all_hosts_passwords():
     try:
         hosts = Host.query.all()

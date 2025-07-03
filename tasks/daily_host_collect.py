@@ -2,7 +2,7 @@ from app import db
 from models import IDC, Host, HostStat
 from celery_app import celery
 
-@celery.task
+@celery.task(name='tasks.password_tasks.update_all_hosts_passwords')
 def daily_host_collect():
     """每天统计各机房主机数量"""
     from datetime import date
@@ -20,7 +20,7 @@ def daily_host_collect():
         stat = HostStat(
             date=today,
             city_id=city_id,
-            data_center_id=idc_id,
+            IDC_id=idc_id,
             host_count=count
         )
         db.session.add(stat)

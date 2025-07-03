@@ -12,7 +12,7 @@ def ping():
     if not ip:
         return jsonify({
             "error": "Missing 'ip' parameter",
-            "usage": "ping?ip=192.168.1.1"
+            "usage": "ping?ip=0.0.0.0"
         }), 400
 
     # 验证IP格式
